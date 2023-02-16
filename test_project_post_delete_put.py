@@ -1,4 +1,3 @@
-
 import requests
 key = "1VQDHXQ8EF73QTHESPT7UHU9AJQPLXXL"
 ENDPOINT = "http://164.92.218.36:8080/api/addresses"
@@ -144,9 +143,7 @@ def test_can_delete_address():
     address_id00 = body.split('</id>')
     address_id0 = address_id00[0].split('<id>')
     address_id = address_id0 [1][9:-3]
-    
     delete_address_response = requests.delete(ENDPOINT + f'/{address_id}', auth=(key,""))
     assert delete_address_response.status_code == 200
-    
     get_deleted_address_response = requests.get(ENDPOINT + f'/{address_id}', auth=(key,""))
     assert get_deleted_address_response.status_code == 404
