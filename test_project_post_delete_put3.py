@@ -7,10 +7,7 @@ def test_can_create_address():
     payload = payload()
     create_address_response = requests.post(ENDPOINT, auth=(key,""), data = payload)
     assert create_address_response.status_code == 201
-    body = create_address_response.text
-    address_id00 = body.split('</id>')
-    address_id0 = address_id00[0].split('<id>')
-    address_id = address_id0 [1][9:-3]
+    address_id = address_id()
     get_created_address_response = requests.get(ENDPOINT + f'/{address_id}', auth=(key,""))
     assert get_created_address_response.status_code == 200
 
@@ -18,10 +15,7 @@ def test_can_update_address():
     payload = payload()
     create_address_response = requests.post(ENDPOINT, auth=(key,""), data = payload)
     assert create_address_response.status_code == 201
-    body = create_address_response.text
-    address_id00 = body.split('</id>')
-    address_id0 = address_id00[0].split('<id>')
-    address_id = address_id0 [1][9:-3]
+    address_id = address_id()
     new_address_payload = f"""<prestashop>
             <address>
                 <id>{address_id}</id>
@@ -65,10 +59,7 @@ def test_can_delete_address():
     payload = payload()
     create_address_response = requests.post(ENDPOINT, auth=(key,""), data = payload)
     assert create_address_response.status_code == 201
-    body = create_address_response.text
-    address_id00 = body.split('</id>')
-    address_id0 = address_id00[0].split('<id>')
-    address_id = address_id0 [1][9:-3]
+    address_id = address_id()
     
     delete_address_response = requests.delete(ENDPOINT + f'/{address_id}', auth=(key,""))
     assert delete_address_response.status_code == 200
@@ -103,3 +94,12 @@ def payload():
                 <date_upd></date_upd>
             </address>
         </prestashop>"""
+        
+def address_id():
+    payload = payload()
+    create_address_response = requests.post(ENDPOINT, auth=(key,""), data = payload)
+    body = create_address_response.text
+    address_id00 = body.split('</id>')
+    address_id0 = address_id00[0].split('<id>')
+    address_id = address_id0 [1][9:-3]
+    return address_id
