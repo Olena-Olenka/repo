@@ -86,7 +86,7 @@ def test_can_update_address():
     updated_body_city = updated_body_city0 [1][9:-5]
     assert updated_body_city == new_body_city
     
-    def test_can_delete_address():
+def test_can_delete_address():
     create_address_response = requests.post(ENDPOINT, auth=(key,""), data = f'{payload()}')
     assert create_address_response.status_code == 201
     delete_address_response = requests.delete(ENDPOINT + f'/{address_id(create_address_response)}', auth=(key,""))
